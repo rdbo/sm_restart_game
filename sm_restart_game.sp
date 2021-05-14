@@ -16,12 +16,14 @@ public Plugin myinfo = {
 public void OnPluginStart()
 {
     PrintToServer("[SM] Restart Game Loaded");
-    RegAdminCmd("sm_rr", CMD_RestartGame, ADMFLAG_RR, "Restarts the Game");
+    RegAdminCmd("sm_rg", CMD_RestartGame, ADMFLAG_RR, "Restarts the Game");
+    RegAdminCmd("sm_restartgame", CMD_RestartGame, ADMFLAG_RR, "Restarts the Game");
+    RegAdminCmd("sm_restartround", CMD_RestartGame, ADMFLAG_RR, "Restarts the Game");
 }
 
 public Action CMD_RestartGame(int client, int args)
 {
-    int secs = 0;
+    int secs = 1;
     
     if (args > 0)
     {
@@ -29,6 +31,9 @@ public Action CMD_RestartGame(int client, int args)
         GetCmdArg(1, buf, sizeof(buf));
         secs = StringToInt(buf);
     }
+    
+    if (secs <= 0)
+        secs = 1;
     
     PrintToChatAll("[SM] Restarting Game in '%i' seconds...", secs);
     ServerCommand("mp_restartgame %i", secs);
